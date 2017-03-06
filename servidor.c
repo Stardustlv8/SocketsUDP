@@ -9,7 +9,7 @@ int main(int argc, char * argv[]){
  struct sockaddr_in echoServerAddr;    /*Estrutura para el server*/
  struct sockaddr_in echoClientAddr;
  char Buffer [256];
- unsigned short echoServerPort = 3001;
+ unsigned short echoServerPort = atoi(argv[1]);
  int reciveMessageSize;
 
  sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
