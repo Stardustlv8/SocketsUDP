@@ -2,18 +2,28 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "unistd.h"
-void *decrementar (void *parametro);
-void *potencia (void *parametro);
+
+typedef struct{
+    int valor;
+}Entero;
+
+void decrementar (int*);
+void potencia (int*);
 int contador = 0;
+
 int main()
 {
 	pthread_t idHilo;
 	pthread_t idHilo2;
 
-	int hilo1, hilo2;
+	int val1 = 1;
+	int val2 = 2;
 
-	hilo1 = pthread_create (&idHilo, NULL, decrementar, NULL);
-	hilo2 = pthread_create (&idHilo2, NULL, potencia, NULL);
+	int hilo1, hilo2;
+	int valor = 2;
+
+	hilo1 = pthread_create (&idHilo, NULL, (void *)decrementar,(void *)&val1);
+	hilo2 = pthread_create (&idHilo2, NULL, (void *)potencia, (void *)&val2);
 	if (hilo1 != 0) return -1;
 	if (hilo2 != 0) return -1;
 
@@ -26,20 +36,21 @@ int main()
  return 0;
 }
 
-void * decrementar (void *parametro)
+void  decrementar (int *val)
 {
+	int cont;
 	while (1)
 	{
-		contador--;
+		contador -= *val;
 		printf ("Hilo1  : %d\n", contador);
 		sleep(5);
 	}
 }
 
-void * potencia (void * parametro){
+void potencia (int *val){
 	while(1){
 
-		contador *= 2;
+		contador *= *val;
 		printf ("Hilo2  : %d\n", contador);
 		sleep(2);
 	}
